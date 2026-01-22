@@ -1,0 +1,35 @@
+# Ralph Runner Container
+# Lightweight container for running Ralph loops
+
+FROM ubuntu:22.04
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    wget \
+    git \
+    build-essential \
+    python3 \
+    python3-pip \
+    nodejs \
+    npm \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js 20
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs
+
+# Install Claude Code CLI
+RUN npm install -g @anthropic-ai/claude-code
+
+# Create workspace
+WORKDIR /workspace
+
+# Set default shell
+SHELL ["/bin/bash", "-c"]
+
+# Verify installation
+RUN claude --version
+
+ENTRYPOINT ["/bin/bash", "-c"]

@@ -1,0 +1,71 @@
+{
+  "name": "Ralph Loops Environment",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+
+  // Features to add to the dev container
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "enableNonRootDocker": "true"
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20"
+    },
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "installOhMyZsh": true
+    }
+  },
+
+  // Configure tool-specific properties
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "GitHub.copilot",
+        "ms-vscode.makefile-tools"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "files.watcherExclude": {
+          "**/node_modules/**": true
+        }
+      }
+    }
+  },
+
+  // Use 'forwardPorts' to make a list of ports inside the container available locally
+  "forwardPorts": [8080],
+
+  // Use 'postCreateCommand' to run commands after the container is created
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+
+  // Comment out to connect as root instead
+  "remoteUser": "vscode",
+
+  // Set environment variables
+  "remoteEnv": {
+    "WORKSPACE_DIR": "${containerWorkspaceFolder}",
+    "ANTHROPIC_API_KEY": "${localEnv:ANTHROPIC_API_KEY}"
+  },
+
+  // Configure container settings
+  "runArgs": [
+    "--name=ralph-codespace"
+  ],
+
+  // Codespaces-specific settings
+  "hostRequirements": {
+    "cpus": 2,
+    "memory": "4gb",
+    "storage": "32gb"
+  },
+
+  // Lifecycle scripts
+  "onCreateCommand": "echo 'Container created successfully'",
+  "updateContentCommand": "echo 'Container content updated'",
+  "postStartCommand": "echo 'Welcome to Ralph Loops! Run: ./scripts/setup-api-key.sh to configure your API key'"
+}

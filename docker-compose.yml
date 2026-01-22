@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  # Single Ralph runner (default)
+  ralph-runner:
+    image: ralph-runner:latest
+    container_name: ralph-loop
+    restart: unless-stopped
+    cpus: 0.8
+    mem_limit: 2g
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    volumes:
+      - ~/ralph-workspace:/workspace
+    working_dir: /workspace
+    command: >
+      bash -c "
+        echo 'Ralph runner container started';
+        echo 'Waiting for commands...';
+        tail -f /dev/null
+      "
+
+  # Example: Multiple concurrent Ralph agents
+  # Uncomment to run multiple loops
+
+  # ralph-frontend:
+  #   image: ralph-runner:latest
+  #   container_name: ralph-frontend
+  #   cpus: 0.5
+  #   mem_limit: 1g
+  #   environment:
+  #     - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+  #     - AGENT_NAME=frontend
+  #   volumes:
+  #     - ~/ralph-workspace/frontend:/workspace
+  #   command: timeout 1h bash -c 'while :; do cat PROMPT.md | claude; sleep 10; done'
+
+  # ralph-backend:
+  #   image: ralph-runner:latest
+  #   container_name: ralph-backend
+  #   cpus: 0.5
+  #   mem_limit: 1g
+  #   environment:
+  #     - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+  #     - AGENT_NAME=backend
+  #   volumes:
+  #     - ~/ralph-workspace/backend:/workspace
+  #   command: timeout 1h bash -c 'while :; do cat PROMPT.md | claude; sleep 10; done'
+
+  # Optional: Resource monitor (for debugging)
+  # monitor:
+  #   image: nicolaka/netshoot
+  #   container_name: ralph-monitor
+  #   restart: unless-stopped
+  #   command: sh -c "while true; do sleep 300; done"
+  #   privileged: true
