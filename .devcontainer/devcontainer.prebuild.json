@@ -1,0 +1,37 @@
+{
+  "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
+  "name": "Ralph Loops Environment (Prebuild)",
+
+  // Prebuild configuration
+  // This extends the main devcontainer.json for optimized prebuilding
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "..",
+    "args": {
+      "PREBUILD": "true"
+    }
+  },
+
+  // Same features as main config
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "enableNonRootDocker": "true"
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20"
+    },
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "installOhMyZsh": true
+    }
+  },
+
+  // Run heavy operations during prebuild
+  "onCreateCommand": {
+    "install-cli": "npm install -g @anthropic-ai/claude-code",
+    "setup-dirs": "mkdir -p ~/ralph-workspace"
+  },
+
+  "remoteUser": "vscode"
+}

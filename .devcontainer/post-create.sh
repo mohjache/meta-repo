@@ -18,11 +18,15 @@ if [ -d "${WORKSPACE_DIR}/scripts" ]; then
     echo "✓ Made scripts executable"
 fi
 
-# Build the Ralph runner Docker image
+# Build the Ralph runner Docker image (only if not already built)
 if [ -f "${WORKSPACE_DIR}/Dockerfile.ralph" ]; then
-    echo "Building Ralph runner Docker image..."
-    docker build -f ${WORKSPACE_DIR}/Dockerfile.ralph -t ralph-runner:latest ${WORKSPACE_DIR}
-    echo "✓ Ralph runner image built"
+    if ! docker images | grep -q "ralph-runner"; then
+        echo "Building Ralph runner Docker image..."
+        docker build -f ${WORKSPACE_DIR}/Dockerfile.ralph -t ralph-runner:latest ${WORKSPACE_DIR}
+        echo "✓ Ralph runner image built"
+    else
+        echo "✓ Ralph runner image already exists (skipping build)"
+    fi
 else
     echo "⚠ Dockerfile.ralph not found, will create it..."
 fi
@@ -64,10 +68,11 @@ fi
 
 # Verify Claude CLI installation
 if command -v claude &> /dev/null; then
-    echo "✓ Claude Code CLI installed: $(claude --version)"
+    echo "✓ Claude Code CLI already installed: $(claude --version)"
 else
-    echo "⚠ Claude Code CLI not found, installing..."
+    echo "Installing Claude Code CLI..."
     npm install -g @anthropic-ai/claude-code
+    echo "✓ Claude Code CLI installed"
 fi
 
 # Verify Docker installation

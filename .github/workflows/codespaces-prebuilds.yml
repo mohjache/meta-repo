@@ -1,0 +1,30 @@
+name: Codespaces Prebuilds
+
+# This workflow helps trigger prebuilds when devcontainer configs change
+# Actual prebuilds are configured in GitHub repository settings
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.devcontainer/**'
+      - 'Dockerfile.ralph'
+      - '.github/workflows/codespaces-prebuilds.yml'
+  workflow_dispatch:
+
+jobs:
+  notify-prebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Notify prebuild trigger
+        run: |
+          echo "✓ Devcontainer configuration changed"
+          echo "✓ GitHub Codespaces will rebuild prebuilds automatically"
+          echo "✓ Next codespace creation will use the prebuild"
+          echo ""
+          echo "Configuration files:"
+          ls -lh .devcontainer/

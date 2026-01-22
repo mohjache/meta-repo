@@ -53,5 +53,9 @@ RUN sudo curl -L "https://github.com/docker/compose/releases/latest/download/doc
 
 # Note: Node.js, npm, and claude verification happens in post-create.sh
 
+# Pre-copy Dockerfile.ralph for faster rebuilds (if exists)
+# This way the ralph-runner image can be built during prebuild
+COPY --chown=vscode:vscode Dockerfile.ralph /tmp/Dockerfile.ralph 2>/dev/null || true
+
 # Default command
 CMD ["/bin/bash"]

@@ -40,8 +40,12 @@
   // Use 'forwardPorts' to make a list of ports inside the container available locally
   "forwardPorts": [8080],
 
-  // Use 'postCreateCommand' to run commands after the container is created
-  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  // Lifecycle commands for optimal prebuild support
+  // onCreateCommand: Runs during prebuild AND first creation
+  "onCreateCommand": "npm install -g @anthropic-ai/claude-code || true",
+
+  // updateContentCommand: Runs when source code changes (after prebuild)
+  "updateContentCommand": "bash .devcontainer/post-create.sh",
 
   // Comment out to connect as root instead
   "remoteUser": "vscode",
