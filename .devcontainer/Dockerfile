@@ -24,8 +24,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && rm -rf /var/lib/apt/lists/*
 
 # Note: Node.js 20 is installed via devcontainer feature (see devcontainer.json)
-# Install Claude Code CLI globally (will run after Node.js feature is installed)
-RUN npm install -g @anthropic-ai/claude-code
+# Claude Code CLI is installed in post-create.sh after Node.js is available
 
 # Create workspace directory
 RUN mkdir -p /workspace/ralph-workspace \
@@ -52,8 +51,7 @@ RUN echo 'alias ll="ls -alh"' >> /home/vscode/.bashrc \
 RUN sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose \
     && sudo chmod +x /usr/local/bin/docker-compose
 
-# Verify installations
-RUN node --version && npm --version && claude --version
+# Note: Node.js, npm, and claude verification happens in post-create.sh
 
 # Default command
 CMD ["/bin/bash"]
