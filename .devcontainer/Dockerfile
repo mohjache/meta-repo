@@ -55,7 +55,8 @@ RUN sudo curl -L "https://github.com/docker/compose/releases/latest/download/doc
 
 # Pre-copy Dockerfile.ralph for faster rebuilds (if exists)
 # This way the ralph-runner image can be built during prebuild
-COPY --chown=vscode:vscode Dockerfile.ralph /tmp/Dockerfile.ralph 2>/dev/null || true
+# Note: Using COPY without conditional - file must exist in build context
+COPY --chown=vscode:vscode Dockerfile.ralph /tmp/Dockerfile.ralph
 
 # Default command
 CMD ["/bin/bash"]
