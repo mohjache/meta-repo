@@ -3,7 +3,17 @@
     "allow": [
       "Bash(mkdir:*)",
       "Bash(chmod:*)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(git remote add:*)",
+      "Bash(git remote:*)",
+      "Bash(ssh-keygen:*)",
+      "Read(//c/Users/User/.ssh/**)",
+      "WebFetch(domain:code.claude.com)",
+      "Read(//c/Users/User/.claude/**)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nFix Docker build error by removing duplicate Node.js installations\n\nThe post-create.sh script was failing during docker build with exit code 100\nbecause Node.js was being installed multiple times, causing package manager\nconflicts.\n\nChanges:\n- .devcontainer/Dockerfile: Removed NodeSource installation since Node.js 20\n  is already provided by the devcontainer feature in devcontainer.json\n- Dockerfile.ralph: Removed nodejs/npm from apt-get, kept only NodeSource\n  installation to avoid installing two different Node.js versions\n- Added cleanup commands to reduce image size\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
     ],
     "deny": [],
     "ask": []

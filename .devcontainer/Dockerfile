@@ -23,12 +23,8 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Node.js 20 (if not already installed by feature)
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
-    && apt-get install -y nodejs \
-    && npm install -g npm@latest
-
-# Install Claude Code CLI globally
+# Note: Node.js 20 is installed via devcontainer feature (see devcontainer.json)
+# Install Claude Code CLI globally (will run after Node.js feature is installed)
 RUN npm install -g @anthropic-ai/claude-code
 
 # Create workspace directory
