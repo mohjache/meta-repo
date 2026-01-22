@@ -1,19 +1,21 @@
 # Makefile for Ralph Loops
 # Makes common operations easy with simple commands
 
-.PHONY: help setup run monitor stop cleanup test build
+.PHONY: help setup run monitor stop cleanup test build validate install-hooks
 
 # Default target
 help:
 	@echo "Ralph Loops - Available Commands:"
 	@echo ""
-	@echo "  make setup      - Configure API key"
-	@echo "  make run        - Run Ralph loop with safe defaults"
-	@echo "  make monitor    - Monitor running loop"
-	@echo "  make stop       - Stop current loop"
-	@echo "  make cleanup    - Stop and cleanup all containers"
-	@echo "  make test       - Test Claude CLI with simple prompt"
-	@echo "  make build      - Build Ralph runner Docker image"
+	@echo "  make setup          - Configure API key"
+	@echo "  make run            - Run Ralph loop with safe defaults"
+	@echo "  make monitor        - Monitor running loop"
+	@echo "  make stop           - Stop current loop"
+	@echo "  make cleanup        - Stop and cleanup all containers"
+	@echo "  make test           - Test Claude CLI with simple prompt"
+	@echo "  make build          - Build Ralph runner Docker image"
+	@echo "  make validate       - Run validation checks (pre-commit)"
+	@echo "  make install-hooks  - Install git pre-commit hooks"
 	@echo ""
 	@echo "Configuration:"
 	@echo "  Edit .env file or ~/ralph-workspace/PROMPT.md"
@@ -22,6 +24,14 @@ help:
 # Setup API key
 setup:
 	@./scripts/setup-api-key.sh
+
+# Install git hooks
+install-hooks:
+	@./scripts/install-hooks.sh
+
+# Run validation checks
+validate:
+	@./scripts/validate.sh
 
 # Build Docker image
 build:

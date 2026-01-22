@@ -84,11 +84,6 @@ ralph-cloud-setup/
 ├── prompts/                   ← Example prompts
 │   └── PROMPT.md              ← Default template
 │
-├── example-prompts/           ← More examples
-│   ├── 01-simple-project.md
-│   ├── 02-iterative-refinement.md
-│   └── 03-research-and-prototype.md
-│
 ├── Dockerfile.ralph           ← Ralph runner container
 ├── docker-compose.yml         ← Multi-container setup
 ├── Makefile                   ← Simple commands
